@@ -1,16 +1,8 @@
 ---
   - name: Ensure OpenSSL is installed
     package: name=openssl state=present
+    when: "ansible_distribution != 'FreeBSD'"
     tags: [ssl-certs,packages]
-
-  - name: Ensure ssl folder exist
-    file:
-      path: "{{ ssl_certs_path }}"
-      state: directory
-      owner: "{{ ssl_certs_path_owner }}"
-      group: "{{ ssl_certs_path_group }}"
-      mode: "{{ ssl_certs_mode }}"
-    tags: [ssl-certs,configuration]
 
   - local_action: stat path={{ ssl_certs_local_privkey_path }}
     register: stat_privkey
